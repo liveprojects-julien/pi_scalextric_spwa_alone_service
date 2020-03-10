@@ -10,7 +10,8 @@
         '$state',
         '$stateParams',
         'brokerDetails',
-        'messageService'
+        'messageService',
+        'aloneService'
         ];
     
     function carControlCtrl(
@@ -18,7 +19,8 @@
         $state,
         $stateParams, 
         brokerDetails,
-        messageService
+        messageService,
+        aloneService
     ) {
         
         var vm = this;
@@ -103,6 +105,7 @@
             messageService.publish(resourceStateTopic.replace(/\{resourceId\}/, resourceId).replace(/\{channel\}/, channel), JSON.stringify(payload));
         }
 
+        
         /*
         If user navigates to a different webpage stop the car.
         When this state is navigated to the onhashchange function 
@@ -120,7 +123,7 @@
       
         messageService.subscribe(throttleTopic,stateName, function(message){
             if(message.topic == throttleTopic){
-                console.log(JSON.stringify(message,null,2));
+                console.log(message.payloadString.replace(/"/g,""));
                 var throttle  = JSON.parse(message.payloadString);
                 //filter out any set throttle messages
                 if(throttle.hasOwnProperty("throttle")){
@@ -144,7 +147,7 @@
             if (vm.resources !== undefined) {
                 vm.resources.forEach(resource => {
                     if (message.topic === resourceStateTopic.replace(/\{resourceId\}/, resource.id)) {
-                        console.log(message);
+                        console.log(message.payloadString.replace(/"/g,""));
                     }
                 })
             }

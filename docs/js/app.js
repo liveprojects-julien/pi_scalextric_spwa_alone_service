@@ -4,7 +4,8 @@
 (function () {
   angular.module('app', [
     'ui.router',// ADDED for page navigation
-    'mainjs'// ADDED for our states module
+    'mainjs',// ADDED for our states module
+    'angular-uuid'
   ])
 
     .config(function ($urlRouterProvider){

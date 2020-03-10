@@ -11,7 +11,9 @@
         'mqttService',
         'brokerDetails',
         'messageService',
-        '$timeout'
+        '$timeout',
+        'uuid',
+        'aloneService'
         ];
     
     function splashscreenCtrl(
@@ -20,9 +22,13 @@
         mqttService,
         brokerDetails,
         messageService,
-        $timeout
+        $timeout,
+        uuid,
+        aloneService
     ) {
         var vm = this;
+        var hash = uuid.v4();
+        
         
         vm.update = function(){
             
@@ -50,6 +56,7 @@
             mqttService.connect(function (success, error) {
                 if (success) {
                     console.log("mqtt connect success");
+                    aloneService.initialize(hash);
                     $state.go('homepage');
                 } else if (error) {
                     console.log(error)
@@ -57,6 +64,10 @@
                 }
 
             },mqttOptions)
+
+
+            
+
         }
 
     }

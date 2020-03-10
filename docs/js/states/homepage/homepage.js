@@ -10,7 +10,8 @@
         '$state',
         'mqttService',
         'brokerDetails',
-        'messageService'
+        'messageService',
+        'aloneService'
         ];
     
     function homepageCtrl(
@@ -18,23 +19,30 @@
         $state,
         mqttService,
         brokerDetails,
-        messageService
+        messageService,
+        aloneService
     ) {
         var vm = this;
         vm.go = go;
         var stateName = "homepage";
         vm.stateName = stateName;
 
+
+        //console.log(aloneService.returnFreeChannels());
+        
+
         //Initialises the range of channels that can be selected and the selected channel
         vm.channels = Array.apply(null, {
-            length: 5
-        }).map(Function.call, Number);;
+            length: 2
+        }).map(Function.call, Number);
+
         vm.channel = 0;
 
         function go(valid) {
             if (!valid) {
                 alert("Invalid Details")
             } else {
+                aloneService.setChannel(vm.channel);
                 $state.transitionTo('car_control',
                 {
                     channel: vm.channel,
@@ -42,13 +50,7 @@
             }
         }
         
-        //mqttService.onMessageArrived(messageService.onMessageArrived);
-        messageService.subscribe("testUUID/channel/0","home_page", function(message){
-            //console.log("message in");
-            console.log(JSON.stringify(message,null,2));
-        });
-
-       
+        
         
     }
 })();
