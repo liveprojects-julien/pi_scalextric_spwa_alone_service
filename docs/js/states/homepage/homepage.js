@@ -26,6 +26,7 @@
         vm.go = go;
         var stateName = "homepage";
         vm.stateName = stateName;
+        
 
 
         //console.log(aloneService.returnFreeChannels());
@@ -42,11 +43,7 @@
             if (!valid) {
                 alert("Invalid Details")
             } else {
-                aloneService.setChannel(vm.channel);
-                $state.transitionTo('car_control',
-                {
-                    channel: vm.channel,
-                });
+                aloneService.checkResponse(vm.channel);
             }
         }
         
